@@ -38,7 +38,7 @@
         // Check if the link is YouTube or other
         if (videoLink.includes('youtube.com') || videoLink.includes('youtu.be')) {
           // Extract video ID for YouTube links
-          const videoID = videoLink.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+          const videoID = videoLink.match(/(?:https?:\/\/)?(?:www\.)?'(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/live\/)([a-zA-Z0-9_-]{11})'/)?.[1];
           if (videoID) {
             iframe.src = `https://www.youtube.com/embed/${videoID}`;
           } else {
