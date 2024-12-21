@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drone Controls</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <img src="/images/tihanlogo.png" alt="Left Logo" class="side-logo">
+      <h1>Drone Controls</h1>
+      <img src="/images/iith.png" alt="Right Logo" class="side-logo">
+    </header>
+    <main>
+      <div class="button-grid">
+        <button class="control-btn" onclick="sendCommand(0)">🚀 Launch</button>
+        <button class="control-btn" onclick="sendCommand(1)">🛫 Take-Off</button>
+        <button class="control-btn" onclick="sendCommand(2)">🛬 Land</button>
+        <button class="control-btn" onclick="showCoordinatesForm()">📍 Enter Coordinates</button>
+      </div>
+      <div id="coordinates-form" class="coordinates-form hidden">
+        <h2>Enter Coordinates</h2>
+        <form id="coord-form">
+          <label for="latitude">Latitude:</label>
+          <input type="text" id="latitude" name="latitude" placeholder="e.g., 17.3850" required>
+          <label for="longitude">Longitude:</label>
+          <input type="text" id="longitude" name="longitude" placeholder="e.g., 78.4867" required>
+          <button type="submit" class="control-btn">Submit</button>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

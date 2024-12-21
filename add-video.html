@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Video Link</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <img src="/images/tihanlogo.png" alt="Left Logo" class="side-logo">
+      <h1>Add Video Link</h1>
+      <img src="/images/iith.png" alt="Right Logo" class="side-logo">
+    </header>
+    <main>
+      <form id="video-link-form" class="form">
+        <div class="form-group">
+          <input type="text" id="video-link" name="video-link" placeholder="Enter YouTube or Video Link" required>
+        </div>
+        <button type="button" id="preview-btn" class="btn">Preview</button>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+      <div id="preview-container" class="preview-container" style="margin-top: 20px;">
+        <!-- Preview area -->
+      </div>
+    </main>
+  </div>
+  <script>
+    const previewBtn = document.getElementById('preview-btn');
+    const previewContainer = document.getElementById('preview-container');
+    const videoInput = document.getElementById('video-link');
+
+    previewBtn.addEventListener('click', function() {
+      const videoLink = videoInput.value;
+
+      // Clear previous preview
+      previewContainer.innerHTML = '';
+
+      if (videoLink) {
+        if (videoLink.includes('youtube.com') || videoLink.includes('youtu.be')) {
+          // Handle YouTube links
+          const videoID = videoLink.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+          if (videoID) {
+            previewContainer.innerHTML = `
+              <iframe width="560" height="315" 
+                      src="https://www.youtube.com/embed/${videoID}" 
+                      frameborder="0" allowfullscreen>
+              </iframe>`;
+          } else {
+            previewContainer.innerHTML = '<p style="color: red;">Invalid YouTube link.</p>';
+          }
+        } else {
+          // Handle other video links
+          previewContainer.innerHTML = `
+            <video width="560" height="315" controls>
+              <source src="${videoLink}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>`;
+        }
+      } else {
+        alert('Please enter a video link to preview.');
+      }
+    });
+
+    document.getElementById('video-link-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      const videoLink = videoInput.value;
+      if (videoLink) {
+        // Save the video link to local storage
+        localStorage.setItem('videoLink', videoLink);
+        
+        // Redirect to the live stream page
+        window.location.href = 'live-stream.html';
+      } else {
+        alert('Please enter a valid video link.');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Stream</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <img src="/images/tihanlogo.png" alt="Left Logo" class="side-logo">
+      <h1>Live Stream</h1>
+      <img src="/images/iith.png" alt="Right Logo" class="side-logo">
+    </header>
+    <main>
+      <div class="video-panel">
+        <!-- Video iframe or video element -->
+        <div id="video-container">
+          <iframe id="video-frame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="controls">
+          <button id="stop-streaming" class="btn">Stop Streaming</button>
+          <button id="logout" class="btn">Logout</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      // Retrieve the video link from local storage
+      const videoLink = localStorage.getItem('videoLink');
+
+      if (videoLink) {
+        const videoContainer = document.getElementById('video-container');
+        const iframe = document.getElementById('video-frame');
+
+        // Check if the link is YouTube or other
+        if (videoLink.includes('youtube.com') || videoLink.includes('youtu.be')) {
+          // Extract video ID for YouTube links
+          const videoID = videoLink.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1];
+          if (videoID) {
+            iframe.src = `https://www.youtube.com/embed/${videoID}`;
+          } else {
+            alert('Invalid YouTube link.');
+          }
+        } else {
+          // Handle other video links
+          videoContainer.innerHTML = `<video id="video-player" width="560" height="315" controls>
+                                         <source src="${videoLink}" type="video/mp4">
+                                         Your browser does not support the video tag.
+                                       </video>`;
+        }
+      } else {
+        alert('No video link provided.');
+        window.location.href = 'add-video-link.html'; // Redirect to the first page
+      }
+
+      // Stop Streaming Button
+      document.getElementById('stop-streaming').addEventListener('click', function() {
+        const iframe = document.getElementById('video-frame');
+        const videoPlayer = document.getElementById('video-player');
+
+        // Stop the YouTube iframe
+        if (iframe && iframe.src) {
+          iframe.src = ''; // Clear the iframe source
+        }
+
+        // Stop the HTML5 video player
+        if (videoPlayer) {
+          videoPlayer.pause(); // Pause the video
+          videoPlayer.currentTime = 0; // Reset to the start
+        }
+      });
+
+      // Logout Button
+      document.getElementById('logout').addEventListener('click', function() {
+        localStorage.removeItem('videoLink'); // Clear the video link
+        window.location.href = 'login.html'; // Redirect to the login page
+      });
+    });
+  </script>
+</body>
+</html>
